@@ -22,17 +22,25 @@ public class Member extends BaseEntity {
     @Column(unique = true)
     private String email;       // 이메일
 
-    public static Member of(String name, String email) {
+    @Column(nullable = false)
+    private String password;
+
+    public static Member of(String name, String email, String password) {
         return new Member(
                 null,
                 name,
-                email
+                email,
+                password
         );
     }
 
     public void updateMemberInfo(String name, String email) {
         this.name = name;
         this.email = email;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
     }
 
 }

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.ncookie.sma.member.dto.request.MemberCreateRequestDto;
+import xyz.ncookie.sma.member.dto.request.MemberUpdatePasswordRequestDto;
 import xyz.ncookie.sma.member.dto.request.MemberUpdateRequestDto;
 import xyz.ncookie.sma.member.dto.response.MemberResponseDto;
 import xyz.ncookie.sma.member.service.MemberService;
@@ -32,16 +33,26 @@ public class MemberController {
         return ResponseEntity.ok().body(findMember);
     }
 
-    @PutMapping("/{memberId}")
+    @PutMapping("/{memberId}/info")
     public ResponseEntity<MemberResponseDto> updateSchedule(
             @PathVariable Long memberId,
             @RequestBody MemberUpdateRequestDto dto
     ) {
 
-        // 영속성 컨텍스트가 dirty checking 하므로 따로 save()를 호출하지 않아도 됨
-        MemberResponseDto updatedSchedule = memberService.updateMember(memberId, dto);
+        MemberResponseDto updatedMember = memberService.updateMemberInfo(memberId, dto);
 
-        return ResponseEntity.ok().body(updatedSchedule);
+        return ResponseEntity.ok().body(updatedMember);
+    }
+
+    @PutMapping("/{memberId}/password")
+    public ResponseEntity<MemberResponseDto> updateSchedule(
+            @PathVariable Long memberId,
+            @RequestBody MemberUpdatePasswordRequestDto dto
+    ) {
+
+        MemberResponseDto updatedMember = memberService.updateMemberPassword(memberId, dto);
+
+        return ResponseEntity.ok().body(updatedMember);
     }
 
     @DeleteMapping("/{memberId}")

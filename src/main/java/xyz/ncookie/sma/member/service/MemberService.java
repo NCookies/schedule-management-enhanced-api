@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.ncookie.sma.global.exception.DuplicateEmailException;
 import xyz.ncookie.sma.member.dto.request.MemberCreateRequestDto;
+import xyz.ncookie.sma.member.dto.request.MemberUpdatePasswordRequestDto;
 import xyz.ncookie.sma.member.dto.request.MemberUpdateRequestDto;
 import xyz.ncookie.sma.member.dto.response.MemberResponseDto;
 import xyz.ncookie.sma.member.entity.Member;
@@ -29,7 +30,7 @@ public class MemberService {
         }
 
         Member createdMember = memberRepository.save(
-                Member.of(dto.name(), dto.email())
+                Member.of(dto.name(), dto.email(), dto.password())
         );
 
         return MemberResponseDto.fromEntity(createdMember);
@@ -44,7 +45,7 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberResponseDto updateMember(Long memberId, MemberUpdateRequestDto dto) {
+    public MemberResponseDto updateMemberInfo(Long memberId, MemberUpdateRequestDto dto) {
 
         Member findMember = memberRetrievalService.findById(memberId);
 
@@ -59,6 +60,17 @@ public class MemberService {
         return MemberResponseDto.fromEntity(findMember);
     }
 
+    @Transactional
+    public MemberResponseDto updateMemberPassword(Long memberId, MemberUpdatePasswordRequestDto dto) {
+
+        Member findMember = memberRetrievalService.findById(memberId);
+
+        findMember.updatePassword(dto.password());
+
+        return MemberResponseDto.fromEntity(findMember);
+    }
+
+    @Transactional
     public void deleteMember(Long memberId) {
 
         Member findMember = memberRetrievalService.findById(memberId);
