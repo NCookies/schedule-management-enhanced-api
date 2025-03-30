@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import xyz.ncookie.sma.member.entity.Member;
+import xyz.ncookie.sma.member.service.MemberRetrievalService;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleSaveRequestDto;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleUpdateRequestDto;
 import xyz.ncookie.sma.schedule.dto.response.ScheduleResponseDto;
@@ -17,14 +19,18 @@ import xyz.ncookie.sma.schedule.repository.ScheduleRepository;
 @Slf4j
 public class ScheduleService {
 
+    private final MemberRetrievalService memberRetrievalService;
+
     private final ScheduleRepository scheduleRepository;
 
     @Transactional
     public ScheduleResponseDto saveSchedule(ScheduleSaveRequestDto dto) {
 
+        Member member = memberRetrievalService.findById(dto.memberId());
+
         Schedule savedSchedule = scheduleRepository.save(
                 Schedule.of(
-                        dto.memberName(),
+                        member,
                         dto.title(),
                         dto.contents()
                 )
@@ -44,7 +50,7 @@ public class ScheduleService {
 
         Schedule findSchedule = findById(scheduleId);
 
-        findSchedule.updateSchedule(dto.memberName(), dto.title(), dto.contents());
+        findSchedule.updateSchedule(dto.title(), dto.contents());
 
         return ScheduleResponseDto.fromEntity(findSchedule);
     }

@@ -1,7 +1,7 @@
 package xyz.ncookie.sma.schedule.dto.request;
 
 public record ScheduleSaveRequestDto(
-        String memberName,
+        Long memberId,
         String title,
         String contents
 ) {

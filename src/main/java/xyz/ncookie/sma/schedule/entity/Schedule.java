@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.ncookie.sma.global.entity.BaseEntity;
+import xyz.ncookie.sma.member.entity.Member;
 
 @Getter
 @AllArgsConstructor
@@ -17,8 +18,9 @@ public class Schedule extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String memberName;      // 작성 유저
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;      // 작성 유저
 
     @Column(nullable = false)
     private String title;       // 할 일 제목
@@ -26,17 +28,16 @@ public class Schedule extends BaseEntity {
     @Column(columnDefinition = "longtext")
     private String contents;    // 할 일 내용
 
-    public static Schedule of(String memberName, String title, String contents) {
+    public static Schedule of(Member member, String title, String contents) {
         return new Schedule(
                 null,
-                memberName,
+                member,
                 title,
                 contents
         );
     }
 
-    public void updateSchedule(String memberName, String title, String contents) {
-        this.memberName = memberName;
+    public void updateSchedule(String title, String contents) {
         this.title = title;
         this.contents = contents;
     }

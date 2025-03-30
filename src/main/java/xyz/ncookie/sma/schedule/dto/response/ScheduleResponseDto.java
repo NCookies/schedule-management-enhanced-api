@@ -1,12 +1,13 @@
 package xyz.ncookie.sma.schedule.dto.response;
 
+import xyz.ncookie.sma.member.dto.response.MemberSummaryDto;
 import xyz.ncookie.sma.schedule.entity.Schedule;
 
 import java.time.LocalDateTime;
 
 public record ScheduleResponseDto(
         Long id,
-        String memberName,
+        MemberSummaryDto memberSummaryDto,
         String title,
         String contents,
         LocalDateTime createdAt,
@@ -16,7 +17,7 @@ public record ScheduleResponseDto(
     public static ScheduleResponseDto fromEntity(Schedule schedule) {
         return new ScheduleResponseDto(
                 schedule.getId(),
-                schedule.getMemberName(),
+                MemberSummaryDto.fromEntity(schedule.getMember()),
                 schedule.getTitle(),
                 schedule.getContents(),
                 schedule.getCreatedAt(),
