@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import xyz.ncookie.sma.global.data.SessionConst;
+import xyz.ncookie.sma.member.dto.response.MemberResponseDto;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleSaveRequestDto;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleUpdateRequestDto;
 import xyz.ncookie.sma.schedule.dto.response.ScheduleResponseDto;
@@ -17,9 +19,12 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> saveSchedule(@RequestBody ScheduleSaveRequestDto dto) {
+    public ResponseEntity<ScheduleResponseDto> saveSchedule(
+            @SessionAttribute(name = SessionConst.LOGIN_USER) MemberResponseDto memberDto,
+            @RequestBody ScheduleSaveRequestDto dto
+    ) {
 
-        ScheduleResponseDto savedSchedule = scheduleService.saveSchedule(dto);
+        ScheduleResponseDto savedSchedule = scheduleService.saveSchedule(memberDto.id(), dto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedSchedule);
     }
@@ -35,18 +40,22 @@ public class ScheduleController {
     @PutMapping("/{scheduleId}")
     public ResponseEntity<ScheduleResponseDto> updateSchedule(
             @PathVariable Long scheduleId,
+            @SessionAttribute(name = SessionConst.LOGIN_USER) MemberResponseDto memberDto,
             @RequestBody ScheduleUpdateRequestDto dto
     ) {
 
-        ScheduleResponseDto updatedSchedule = scheduleService.updateSchedule(scheduleId, dto);
+        ScheduleResponseDto updatedSchedule = scheduleService.updateSchedule(scheduleId, memberDto.id(), dto);
 
         return ResponseEntity.ok().body(updatedSchedule);
     }
 
     @DeleteMapping("/{scheduleId}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId) {
+    public ResponseEntity<Void> deleteSchedule(
+            @PathVariable Long scheduleId,
+            @SessionAttribute(name = SessionConst.LOGIN_USER) MemberResponseDto memberDto
+    ) {
 
-        scheduleService.deleteScheduleById(scheduleId);
+        scheduleService.deleteScheduleById(scheduleId, memberDto.id());
 
         return ResponseEntity.ok().body(null);
     }
