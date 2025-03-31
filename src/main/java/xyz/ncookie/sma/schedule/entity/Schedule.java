@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 import xyz.ncookie.sma.global.entity.BaseEntity;
 import xyz.ncookie.sma.member.entity.Member;
 
-@Getter
-@AllArgsConstructor
 @Entity
 @Table(name = "schedule")
+@Getter
+@AllArgsConstructor
 @NoArgsConstructor
 public class Schedule extends BaseEntity {
 

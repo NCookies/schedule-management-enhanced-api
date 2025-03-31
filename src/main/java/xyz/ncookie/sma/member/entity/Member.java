@@ -6,11 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.ncookie.sma.global.entity.BaseEntity;
 
+@Entity
+@Table(name = "member")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "member")
 public class Member extends BaseEntity {
 
     @Id
