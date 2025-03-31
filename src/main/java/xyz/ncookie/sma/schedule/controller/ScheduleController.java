@@ -38,7 +38,6 @@ public class ScheduleController {
             @RequestBody ScheduleUpdateRequestDto dto
     ) {
 
-        // 영속성 컨텍스트가 dirty checking 하므로 따로 save()를 호출하지 않아도 됨 
         ScheduleResponseDto updatedSchedule = scheduleService.updateSchedule(scheduleId, dto);
 
         return ResponseEntity.ok().body(updatedSchedule);

@@ -52,6 +52,7 @@ public class ScheduleService {
 
         findSchedule.updateSchedule(dto.title(), dto.contents());
 
+        // 영속성 컨텍스트가 dirty checking 하므로 따로 save()를 호출하지 않아도 됨
         return ScheduleResponseDto.fromEntity(findSchedule);
     }
 
