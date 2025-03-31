@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import xyz.ncookie.sma.global.data.SessionConst;
 import xyz.ncookie.sma.member.dto.request.MemberCreateRequestDto;
 import xyz.ncookie.sma.member.dto.request.MemberUpdatePasswordRequestDto;
 import xyz.ncookie.sma.member.dto.request.MemberUpdateRequestDto;
@@ -25,6 +26,16 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMember);
     }
 
+    // 로그인한 회원 자신의 정보 조회
+    @GetMapping("/me")
+    public ResponseEntity<MemberResponseDto> getMyInfo(
+            @SessionAttribute(name = SessionConst.LOGIN_USER) MemberResponseDto loginMember
+    ) {
+
+        return ResponseEntity.ok().body(loginMember);
+    }
+
+    // 다른 회원의 정보 조회
     @GetMapping("/{memberId}")
     public ResponseEntity<MemberResponseDto> getMember(@PathVariable Long memberId) {
 
@@ -33,32 +44,37 @@ public class MemberController {
         return ResponseEntity.ok().body(findMember);
     }
 
-    @PutMapping("/{memberId}/info")
+    // 프로필 수정
+    @PutMapping("/me/info")
     public ResponseEntity<MemberResponseDto> updateMemberInfo(
-            @PathVariable Long memberId,
+            @SessionAttribute(name = SessionConst.LOGIN_USER) MemberResponseDto loginMember,
             @RequestBody MemberUpdateRequestDto dto
     ) {
 
-        MemberResponseDto updatedMember = memberService.updateMemberInfo(memberId, dto);
+        MemberResponseDto updatedMember = memberService.updateMemberInfo(loginMember.id(), dto);
 
         return ResponseEntity.ok().body(updatedMember);
     }
 
-    @PutMapping("/{memberId}/password")
+    // 비밀번호 수정
+    @PutMapping("/me/password")
     public ResponseEntity<MemberResponseDto> updateMemberPassword(
-            @PathVariable Long memberId,
+            @SessionAttribute(name = SessionConst.LOGIN_USER) MemberResponseDto loginMember,
             @RequestBody MemberUpdatePasswordRequestDto dto
     ) {
 
-        MemberResponseDto updatedMember = memberService.updateMemberPassword(memberId, dto);
+        MemberResponseDto updatedMember = memberService.updateMemberPassword(loginMember.id(), dto);
 
         return ResponseEntity.ok().body(updatedMember);
     }
 
-    @DeleteMapping("/{memberId}")
-    public ResponseEntity<Void> deleteMember(@PathVariable Long memberId) {
+    // 회원 삭제
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> deleteMember(
+            @SessionAttribute(name = SessionConst.LOGIN_USER) MemberResponseDto loginMember
+    ) {
 
-        memberService.deleteMember(memberId);
+        memberService.deleteMember(loginMember.id());
 
         return ResponseEntity.ok().body(null);
     }

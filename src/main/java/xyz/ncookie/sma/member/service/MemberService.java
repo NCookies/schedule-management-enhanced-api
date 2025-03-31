@@ -64,8 +64,13 @@ public class MemberService {
     public MemberResponseDto updateMemberPassword(Long memberId, MemberUpdatePasswordRequestDto dto) {
 
         Member findMember = memberRetrievalService.findById(memberId);
+        
+        // TODO: matches로 변경 예정
+        if (!findMember.getPassword().equals(dto.oldPassword())) {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다. 회원 ID: " + memberId);
+        }
 
-        findMember.updatePassword(dto.password());
+        findMember.updatePassword(dto.newPassword());
 
         return MemberResponseDto.fromEntity(findMember);
     }
