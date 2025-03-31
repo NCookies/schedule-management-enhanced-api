@@ -17,8 +17,8 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping
-    public ResponseEntity<MemberResponseDto> saveSchedule(@RequestBody MemberCreateRequestDto dto) {
+    @PostMapping("/register")
+    public ResponseEntity<MemberResponseDto> register(@RequestBody MemberCreateRequestDto dto) {
 
         MemberResponseDto createdMember = memberService.createMember(dto);
 
@@ -26,7 +26,7 @@ public class MemberController {
     }
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<MemberResponseDto> getSchedule(@PathVariable Long memberId) {
+    public ResponseEntity<MemberResponseDto> getMember(@PathVariable Long memberId) {
 
         MemberResponseDto findMember = memberService.getMemberById(memberId);
 
@@ -34,7 +34,7 @@ public class MemberController {
     }
 
     @PutMapping("/{memberId}/info")
-    public ResponseEntity<MemberResponseDto> updateSchedule(
+    public ResponseEntity<MemberResponseDto> updateMemberInfo(
             @PathVariable Long memberId,
             @RequestBody MemberUpdateRequestDto dto
     ) {
@@ -45,7 +45,7 @@ public class MemberController {
     }
 
     @PutMapping("/{memberId}/password")
-    public ResponseEntity<MemberResponseDto> updateSchedule(
+    public ResponseEntity<MemberResponseDto> updateMemberPassword(
             @PathVariable Long memberId,
             @RequestBody MemberUpdatePasswordRequestDto dto
     ) {
@@ -56,7 +56,7 @@ public class MemberController {
     }
 
     @DeleteMapping("/{memberId}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long memberId) {
+    public ResponseEntity<Void> deleteMember(@PathVariable Long memberId) {
 
         memberService.deleteMember(memberId);
 
