@@ -79,7 +79,7 @@ public class MemberService {
 
     private boolean existsByEmail(String email) {
 
-        return !memberRepository.findByEmail(email).isEmpty();
+        return memberRepository.findByEmail(email).isPresent();
     }
 
 }
