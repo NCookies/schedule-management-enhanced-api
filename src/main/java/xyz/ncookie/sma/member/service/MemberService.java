@@ -19,8 +19,6 @@ import xyz.ncookie.sma.member.repository.MemberRepository;
 @Slf4j
 public class MemberService {
 
-    private final MemberRetrievalService memberRetrievalService;
-
     private final MemberRepository memberRepository;
 
     private final PasswordEncoder passwordEncoder;
@@ -46,14 +44,14 @@ public class MemberService {
     public MemberResponseDto getMemberById(Long memberId) {
 
         return MemberResponseDto.fromEntity(
-                memberRetrievalService.findById(memberId)
+                memberRepository.findByIdOrElseThrow(memberId)
         );
     }
 
     @Transactional
     public MemberResponseDto updateMemberInfo(Long memberId, MemberUpdateRequestDto dto) {
 
-        Member findMember = memberRetrievalService.findById(memberId);
+        Member findMember = memberRepository.findByIdOrElseThrow(memberId);
 
         findMember.updateMemberInfo(dto.name());
 
@@ -63,7 +61,7 @@ public class MemberService {
     @Transactional
     public MemberResponseDto updateMemberPassword(Long memberId, MemberUpdatePasswordRequestDto dto) {
 
-        Member findMember = memberRetrievalService.findById(memberId);
+        Member findMember = memberRepository.findByIdOrElseThrow(memberId);
         
         if (!passwordEncoder.matches(dto.oldPassword(), findMember.getPassword())) {
             throw new BusinessException(ErrorCode.INVALID_PASSWORD, " 회원 ID: " + memberId);
@@ -78,7 +76,7 @@ public class MemberService {
     @Transactional
     public void deleteMember(Long memberId) {
 
-        Member findMember = memberRetrievalService.findById(memberId);
+        Member findMember = memberRepository.findByIdOrElseThrow(memberId);
         memberRepository.delete(findMember);
     }
 

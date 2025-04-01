@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import xyz.ncookie.sma.global.exception.BusinessException;
 import xyz.ncookie.sma.global.exception.ErrorCode;
 import xyz.ncookie.sma.member.entity.Member;
-import xyz.ncookie.sma.member.service.MemberRetrievalService;
+import xyz.ncookie.sma.member.repository.MemberRepository;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleSaveRequestDto;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleUpdateRequestDto;
 import xyz.ncookie.sma.schedule.dto.response.ScheduleResponseDto;
@@ -21,14 +21,13 @@ import java.util.Objects;
 @Slf4j
 public class ScheduleService {
 
-    private final MemberRetrievalService memberRetrievalService;
-
     private final ScheduleRepository scheduleRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public ScheduleResponseDto saveSchedule(Long memberId, ScheduleSaveRequestDto dto) {
 
-        Member member = memberRetrievalService.findById(memberId);
+        Member member = memberRepository.findByIdOrElseThrow(memberId);
 
         Schedule savedSchedule = scheduleRepository.save(
                 Schedule.of(
@@ -44,13 +43,14 @@ public class ScheduleService {
     @Transactional(readOnly = true)
     public ScheduleResponseDto getScheduleById(Long scheduleId) {
 
-        return ScheduleResponseDto.fromEntity(findById(scheduleId));
+        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(scheduleId);
+        return ScheduleResponseDto.fromEntity(findSchedule);
     }
 
     @Transactional
     public ScheduleResponseDto updateSchedule(Long scheduleId, Long memberId, ScheduleUpdateRequestDto dto) {
 
-        Schedule findSchedule = findById(scheduleId);
+        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(scheduleId);
 
         verifyScheduleOwner(findSchedule, memberId);
 
@@ -63,17 +63,11 @@ public class ScheduleService {
     @Transactional
     public void deleteScheduleById(Long scheduleId, Long memberId) {
 
-        Schedule findSchedule = findById(scheduleId);
+        Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(scheduleId);
 
         verifyScheduleOwner(findSchedule, memberId);
 
         scheduleRepository.delete(findSchedule);
-    }
-
-    private Schedule findById(Long scheduleId) {
-
-        return scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, " 존재하지 않는 ID입니다. : " + scheduleId));
     }
 
     // 일정 수정 또는 삭제 시 해당 일정을 작성한 회원인지 검증
