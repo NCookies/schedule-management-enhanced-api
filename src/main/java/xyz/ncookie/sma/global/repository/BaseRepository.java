@@ -1,6 +1,7 @@
 package xyz.ncookie.sma.global.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.NoRepositoryBean;
 import xyz.ncookie.sma.global.exception.BusinessException;
 import xyz.ncookie.sma.global.exception.ErrorCode;
 
@@ -9,6 +10,7 @@ import xyz.ncookie.sma.global.exception.ErrorCode;
  * @param <T>   Entity 타입
  * @param <ID>  Entity ID 타입
  */
+@NoRepositoryBean
 public interface BaseRepository<T, ID> extends JpaRepository<T, ID> {
 
     default T findByIdOrElseThrow(ID id) {
