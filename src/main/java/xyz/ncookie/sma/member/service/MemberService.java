@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.ncookie.sma.global.exception.DuplicateEmailException;
+import xyz.ncookie.sma.global.exception.BusinessException;
+import xyz.ncookie.sma.global.exception.ErrorCode;
 import xyz.ncookie.sma.member.dto.request.MemberCreateRequestDto;
 import xyz.ncookie.sma.member.dto.request.MemberUpdatePasswordRequestDto;
 import xyz.ncookie.sma.member.dto.request.MemberUpdateRequestDto;
@@ -26,7 +27,7 @@ public class MemberService {
 
         // email 중복 예외 처리
         if (existsByEmail(dto.email())) {
-            throw new DuplicateEmailException(dto.email());
+            throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXISTS, ": " + dto.email());
         }
 
         Member createdMember = memberRepository.save(
@@ -49,12 +50,6 @@ public class MemberService {
 
         Member findMember = memberRetrievalService.findById(memberId);
 
-        // 수정하려는 이메일이 이미 존재한다면 예외 발생
-        // 같은 유저가 기존에 사용하던 이메일이라면 제외
-        if (existsByEmail(dto.email()) && !dto.email().equals(findMember.getEmail())) {
-            throw new DuplicateEmailException(dto.email());
-        }
-
         findMember.updateMemberInfo(dto.name(), dto.email());
 
         return MemberResponseDto.fromEntity(findMember);
@@ -67,7 +62,7 @@ public class MemberService {
         
         // TODO: matches로 변경 예정
         if (!findMember.getPassword().equals(dto.oldPassword())) {
-            throw new RuntimeException("비밀번호가 일치하지 않습니다. 회원 ID: " + memberId);
+            throw new BusinessException(ErrorCode.INVALID_PASSWORD, " 회원 ID: " + memberId);
         }
 
         findMember.updatePassword(dto.newPassword());

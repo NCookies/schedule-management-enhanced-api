@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.PatternMatchUtils;
 import xyz.ncookie.sma.global.data.SessionConst;
+import xyz.ncookie.sma.global.exception.BusinessException;
+import xyz.ncookie.sma.global.exception.ErrorCode;
 
 import java.io.IOException;
 
@@ -31,7 +33,7 @@ public class LoginFilter implements Filter {
             HttpSession session = httpRequest.getSession(false);
 
             if (session == null || session.getAttribute(SessionConst.LOGIN_USER) == null) {
-                throw new RuntimeException("로그인을 해야합니다.");
+                throw new BusinessException(ErrorCode.LOGIN_REQUIRED);
             }
 
             log.info("로그인에 성공했습니다.");

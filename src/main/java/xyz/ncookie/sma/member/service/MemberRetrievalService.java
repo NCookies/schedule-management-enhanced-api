@@ -1,9 +1,9 @@
 package xyz.ncookie.sma.member.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import xyz.ncookie.sma.global.exception.BusinessException;
+import xyz.ncookie.sma.global.exception.ErrorCode;
 import xyz.ncookie.sma.member.entity.Member;
 import xyz.ncookie.sma.member.repository.MemberRepository;
 
@@ -19,7 +19,7 @@ public class MemberRetrievalService {
     public Member findById(Long memberId) {
 
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 ID입니다. = " + memberId));
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, " 존재하지 않는 ID입니다. : " + memberId));
     }
 
 }

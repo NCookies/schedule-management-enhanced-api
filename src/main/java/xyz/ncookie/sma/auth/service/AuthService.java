@@ -3,7 +3,8 @@ package xyz.ncookie.sma.auth.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import xyz.ncookie.sma.auth.dto.request.LoginRequestDto;
-import xyz.ncookie.sma.global.exception.LoginFailureException;
+import xyz.ncookie.sma.global.exception.BusinessException;
+import xyz.ncookie.sma.global.exception.ErrorCode;
 import xyz.ncookie.sma.member.dto.response.MemberResponseDto;
 import xyz.ncookie.sma.member.entity.Member;
 import xyz.ncookie.sma.member.repository.MemberRepository;
@@ -17,11 +18,11 @@ public class AuthService {
     public MemberResponseDto login(LoginRequestDto dto) {
 
         Member findMember = memberRepository.findByEmail(dto.email())
-                .orElseThrow(() -> new LoginFailureException("존재하지 않는 이메일입니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_EMAIL, ": " + dto.email()));
 
         // TODO: PasswordEncoder 사용 시 matches 로 변경
         if (!findMember.getPassword().equals(dto.password())) {
-            throw new LoginFailureException("비밀번호가 일치하지 않습니다.");
+            throw new BusinessException(ErrorCode.INVALID_PASSWORD);
         }
 
         return MemberResponseDto.fromEntity(findMember);

@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import xyz.ncookie.sma.global.exception.BusinessException;
+import xyz.ncookie.sma.global.exception.ErrorCode;
 import xyz.ncookie.sma.member.entity.Member;
 import xyz.ncookie.sma.member.service.MemberRetrievalService;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleSaveRequestDto;
@@ -73,7 +75,7 @@ public class ScheduleService {
     private Schedule findById(Long scheduleId) {
 
         return scheduleRepository.findById(scheduleId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 ID입니다. = " + scheduleId));
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, " 존재하지 않는 ID입니다. : " + scheduleId));
     }
 
     // 일정 수정 또는 삭제 시 해당 일정을 작성한 회원인지 검증
@@ -81,7 +83,7 @@ public class ScheduleService {
 
         Long findMemberId = findSchedule.getMember().getId();
         if (!Objects.equals(sessionMemberId, findMemberId)) {
-            throw new RuntimeException("본인이 작성한 일정만 수정 또는 삭제할 수 있습니다. 일정 ID, 회원 ID: " + findSchedule.getId() + ", " + findMemberId);
+            throw new BusinessException(ErrorCode.FORBIDDEN_OPERATION, "본인이 작성한 일정만 수정 또는 삭제할 수 있습니다. 일정 ID, 회원 ID: " + findSchedule.getId() + ", " + findMemberId);
         }
     }
 
