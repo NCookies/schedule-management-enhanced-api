@@ -30,4 +30,17 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;      // 댓글이 위치한 일정
 
+    public static Comment of(String contents, Member member, Schedule schedule) {
+        return new Comment(
+                null,
+                contents,
+                member,
+                schedule
+        );
+    }
+
+    public void updateComment(String contents) {
+        this.contents = contents;
+    }
+
 }
