@@ -50,7 +50,7 @@ public class MemberService {
 
         Member findMember = memberRetrievalService.findById(memberId);
 
-        findMember.updateMemberInfo(dto.name(), dto.email());
+        findMember.updateMemberInfo(dto.name());
 
         return MemberResponseDto.fromEntity(findMember);
     }

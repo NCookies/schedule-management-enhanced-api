@@ -19,7 +19,7 @@ public class Member extends BaseEntity {
 
     private String name;        // 유저명
 
-    @Column(unique = true)
+    @Column(unique = true, updatable = false)
     private String email;       // 이메일
 
     @Column(nullable = false)
@@ -34,9 +34,8 @@ public class Member extends BaseEntity {
         );
     }
 
-    public void updateMemberInfo(String name, String email) {
+    public void updateMemberInfo(String name) {
         this.name = name;
-        this.email = email;
     }
 
     public void updatePassword(String password) {
