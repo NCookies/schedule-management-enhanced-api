@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.ncookie.sma.global.exception.BusinessException;
 import xyz.ncookie.sma.global.exception.ErrorCode;
+import xyz.ncookie.sma.global.util.PasswordEncoder;
 import xyz.ncookie.sma.member.dto.request.MemberCreateRequestDto;
 import xyz.ncookie.sma.member.dto.request.MemberUpdatePasswordRequestDto;
 import xyz.ncookie.sma.member.dto.request.MemberUpdateRequestDto;
@@ -22,6 +23,8 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public MemberResponseDto createMember(MemberCreateRequestDto dto) {
 
@@ -30,8 +33,10 @@ public class MemberService {
             throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXISTS, ": " + dto.email());
         }
 
+        String encodedPassword = passwordEncoder.encode(dto.password());
+
         Member createdMember = memberRepository.save(
-                Member.of(dto.name(), dto.email(), dto.password())
+                Member.of(dto.name(), dto.email(), encodedPassword)
         );
 
         return MemberResponseDto.fromEntity(createdMember);
@@ -60,12 +65,12 @@ public class MemberService {
 
         Member findMember = memberRetrievalService.findById(memberId);
         
-        // TODO: matches로 변경 예정
-        if (!findMember.getPassword().equals(dto.oldPassword())) {
+        if (!passwordEncoder.matches(dto.oldPassword(), findMember.getPassword())) {
             throw new BusinessException(ErrorCode.INVALID_PASSWORD, " 회원 ID: " + memberId);
         }
 
-        findMember.updatePassword(dto.newPassword());
+        String encodedPassword = passwordEncoder.encode(dto.newPassword());
+        findMember.updatePassword(encodedPassword);
 
         return MemberResponseDto.fromEntity(findMember);
     }
