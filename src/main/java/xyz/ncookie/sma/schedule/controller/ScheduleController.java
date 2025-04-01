@@ -1,5 +1,6 @@
 package xyz.ncookie.sma.schedule.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class ScheduleController {
     @PostMapping
     public ResponseEntity<ScheduleResponseDto> saveSchedule(
             @SessionAttribute(name = SessionConst.LOGIN_USER) MemberResponseDto memberDto,
-            @RequestBody ScheduleSaveRequestDto dto
+            @Valid @RequestBody ScheduleSaveRequestDto dto
     ) {
 
         ScheduleResponseDto savedSchedule = scheduleService.saveSchedule(memberDto.id(), dto);
@@ -41,7 +42,7 @@ public class ScheduleController {
     public ResponseEntity<ScheduleResponseDto> updateSchedule(
             @PathVariable Long scheduleId,
             @SessionAttribute(name = SessionConst.LOGIN_USER) MemberResponseDto memberDto,
-            @RequestBody ScheduleUpdateRequestDto dto
+            @Valid @RequestBody ScheduleUpdateRequestDto dto
     ) {
 
         ScheduleResponseDto updatedSchedule = scheduleService.updateSchedule(scheduleId, memberDto.id(), dto);

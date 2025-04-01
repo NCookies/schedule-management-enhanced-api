@@ -28,6 +28,10 @@ public class ErrorResponse {
         return of(errorCode.getStatus(), errorCode.getMessage(), path, null);
     }
 
+    public static ErrorResponse of(ErrorCode errorCode, String path, Object detail) {
+        return of(errorCode.getStatus(), errorCode.getMessage(), path, detail);
+    }
+
     public static ErrorResponse of(HttpStatus httpStatus, String message, String path, Object detail) {
         return new ErrorResponse(
                 httpStatus.name(),

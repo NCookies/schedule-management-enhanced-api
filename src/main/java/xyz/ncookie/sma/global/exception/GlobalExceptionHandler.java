@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(ErrorCode.VALIDATION_FAILED.getStatus())
-                .body(ErrorResponse.of(ErrorCode.VALIDATION_FAILED, request.getRequestURI()));
+                .body(ErrorResponse.of(ErrorCode.VALIDATION_FAILED, request.getRequestURI(), message));
     }
 
     // 커스텀 예외 처리
