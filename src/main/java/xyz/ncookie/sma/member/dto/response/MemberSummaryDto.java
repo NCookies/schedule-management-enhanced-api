@@ -9,9 +9,16 @@ public record MemberSummaryDto(
 ) {
 
     public static MemberSummaryDto fromEntity(Member member) {
-        return new MemberSummaryDto(
+        return MemberSummaryDto.of(
                 member.getId(),
                 member.getName()
+        );
+    }
+
+    public static MemberSummaryDto of(Long id, String name) {
+        return new MemberSummaryDto(
+                id,
+                name
         );
     }
 

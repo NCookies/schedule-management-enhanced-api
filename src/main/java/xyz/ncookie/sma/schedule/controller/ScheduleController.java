@@ -2,6 +2,10 @@ package xyz.ncookie.sma.schedule.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +14,7 @@ import xyz.ncookie.sma.member.dto.response.MemberResponseDto;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleSaveRequestDto;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleUpdateRequestDto;
 import xyz.ncookie.sma.schedule.dto.response.ScheduleResponseDto;
+import xyz.ncookie.sma.schedule.dto.response.ScheduleWithCommentCountResponseDto;
 import xyz.ncookie.sma.schedule.service.ScheduleService;
 
 @RestController
@@ -36,6 +41,16 @@ public class ScheduleController {
         ScheduleResponseDto findSchedule = scheduleService.getScheduleById(scheduleId);
 
         return ResponseEntity.ok().body(findSchedule);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<ScheduleWithCommentCountResponseDto>> getAllSchedules(
+            @PageableDefault(size = 10, sort = "modifiedAt", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+
+        Page<ScheduleWithCommentCountResponseDto> findAllSchedules = scheduleService.findAllSchedules(pageable);
+
+        return ResponseEntity.ok().body(findAllSchedules);
     }
 
     @PutMapping("/{scheduleId}")

@@ -2,6 +2,8 @@ package xyz.ncookie.sma.schedule.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.ncookie.sma.global.exception.BusinessException;
@@ -11,6 +13,8 @@ import xyz.ncookie.sma.member.repository.MemberRepository;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleSaveRequestDto;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleUpdateRequestDto;
 import xyz.ncookie.sma.schedule.dto.response.ScheduleResponseDto;
+import xyz.ncookie.sma.schedule.dto.response.ScheduleWithCommentCountResponseDto;
+import xyz.ncookie.sma.schedule.dto.response.ScheduleWithFlatCommentCountDto;
 import xyz.ncookie.sma.schedule.entity.Schedule;
 import xyz.ncookie.sma.schedule.repository.ScheduleRepository;
 
@@ -45,6 +49,14 @@ public class ScheduleService {
 
         Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(scheduleId);
         return ScheduleResponseDto.fromEntity(findSchedule);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ScheduleWithCommentCountResponseDto> findAllSchedules(Pageable pageable) {
+
+        Page<ScheduleWithFlatCommentCountDto> findAllComment = scheduleRepository.findAllWithCommentCount(pageable);
+
+        return findAllComment.map(ScheduleWithFlatCommentCountDto::toResponseDto);
     }
 
     @Transactional
