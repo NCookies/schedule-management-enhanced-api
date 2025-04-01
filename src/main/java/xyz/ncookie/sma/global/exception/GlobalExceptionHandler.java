@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(ex.getErrorCode().getStatus())
-                .body(ErrorResponse.of(ex.getErrorCode(), request.getRequestURI()));
+                .body(ErrorResponse.of(ex.getErrorCode(), request.getRequestURI(), ex.getDetail()));
     }
 
     // @ExceptionHandler는 더 구체적인 예외 타입이 우선적으로 매칭되므로, 여기에는 미처 핸들링하지 못한 예외들이 들어온다.
