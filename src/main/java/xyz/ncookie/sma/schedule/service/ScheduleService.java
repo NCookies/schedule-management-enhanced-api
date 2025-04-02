@@ -3,9 +3,13 @@ package xyz.ncookie.sma.schedule.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import xyz.ncookie.sma.comment.entity.Comment;
+import xyz.ncookie.sma.comment.repository.CommentRepository;
 import xyz.ncookie.sma.global.exception.BusinessException;
 import xyz.ncookie.sma.global.exception.ErrorCode;
 import xyz.ncookie.sma.member.entity.Member;
@@ -15,6 +19,7 @@ import xyz.ncookie.sma.schedule.dto.request.ScheduleUpdateRequestDto;
 import xyz.ncookie.sma.schedule.dto.response.ScheduleResponseDto;
 import xyz.ncookie.sma.schedule.dto.response.ScheduleWithCommentCountResponseDto;
 import xyz.ncookie.sma.schedule.dto.response.ScheduleWithCommentCountFlatDto;
+import xyz.ncookie.sma.schedule.dto.response.ScheduleWithCommentsResponseDto;
 import xyz.ncookie.sma.schedule.entity.Schedule;
 import xyz.ncookie.sma.schedule.repository.ScheduleRepository;
 
@@ -27,6 +32,7 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final MemberRepository memberRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public ScheduleResponseDto saveSchedule(Long memberId, ScheduleSaveRequestDto dto) {
@@ -45,10 +51,14 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public ScheduleResponseDto getScheduleById(Long scheduleId) {
+    public ScheduleWithCommentsResponseDto findScheduleWithComments(Long scheduleId) {
 
         Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(scheduleId);
-        return ScheduleResponseDto.fromEntity(findSchedule);
+
+        Sort commentSort = Sort.by("createdAt").descending();
+        Page<Comment> pageComments = commentRepository.findBySchedule_id(PageRequest.of(0, 10, commentSort), scheduleId);
+
+        return ScheduleWithCommentsResponseDto.fromEntity(findSchedule, pageComments);
     }
 
     @Transactional(readOnly = true)

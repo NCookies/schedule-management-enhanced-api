@@ -15,6 +15,7 @@ import xyz.ncookie.sma.schedule.dto.request.ScheduleSaveRequestDto;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleUpdateRequestDto;
 import xyz.ncookie.sma.schedule.dto.response.ScheduleResponseDto;
 import xyz.ncookie.sma.schedule.dto.response.ScheduleWithCommentCountResponseDto;
+import xyz.ncookie.sma.schedule.dto.response.ScheduleWithCommentsResponseDto;
 import xyz.ncookie.sma.schedule.service.ScheduleService;
 
 @RestController
@@ -36,9 +37,9 @@ public class ScheduleController {
     }
 
     @GetMapping("/{scheduleId}")
-    public ResponseEntity<ScheduleResponseDto> getSchedule(@PathVariable Long scheduleId) {
+    public ResponseEntity<ScheduleWithCommentsResponseDto> getSchedule(@PathVariable Long scheduleId) {
 
-        ScheduleResponseDto findSchedule = scheduleService.getScheduleById(scheduleId);
+        ScheduleWithCommentsResponseDto findSchedule = scheduleService.findScheduleWithComments(scheduleId);
 
         return ResponseEntity.ok().body(findSchedule);
     }
