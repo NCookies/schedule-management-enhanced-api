@@ -13,7 +13,7 @@ import xyz.ncookie.sma.comment.dto.request.CommentSaveRequestDto;
 import xyz.ncookie.sma.comment.dto.request.CommentUpdateRequestDto;
 import xyz.ncookie.sma.comment.dto.response.CommentResponseDto;
 import xyz.ncookie.sma.comment.service.CommentService;
-import xyz.ncookie.sma.global.data.SessionConst;
+import xyz.ncookie.sma.common.data.SessionConst;
 import xyz.ncookie.sma.member.dto.response.MemberResponseDto;
 
 @RestController

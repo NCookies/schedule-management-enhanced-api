@@ -1,10 +1,10 @@
-package xyz.ncookie.sma.global.config;
+package xyz.ncookie.sma.common.config;
 
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import xyz.ncookie.sma.global.filter.LoginFilter;
+import xyz.ncookie.sma.common.filter.LoginFilter;
 
 @Configuration
 public class WebConfig {

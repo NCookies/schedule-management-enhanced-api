@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import xyz.ncookie.sma.global.data.SessionConst;
+import xyz.ncookie.sma.common.data.SessionConst;
 import xyz.ncookie.sma.member.dto.request.MemberCreateRequestDto;
 import xyz.ncookie.sma.member.dto.request.MemberUpdatePasswordRequestDto;
 import xyz.ncookie.sma.member.dto.request.MemberUpdateRequestDto;

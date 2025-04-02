@@ -3,7 +3,7 @@ package xyz.ncookie.sma.schedule.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import xyz.ncookie.sma.global.repository.BaseRepository;
+import xyz.ncookie.sma.common.repository.BaseRepository;
 import xyz.ncookie.sma.schedule.dto.response.ScheduleWithCommentCountFlatDto;
 import xyz.ncookie.sma.schedule.entity.Schedule;
 

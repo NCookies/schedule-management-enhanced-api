@@ -1,4 +1,4 @@
-package xyz.ncookie.sma.global.exception;
+package xyz.ncookie.sma.common.exception;
 
 import lombok.Getter;
 

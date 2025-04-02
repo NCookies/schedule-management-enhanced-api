@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.ncookie.sma.member.dto.request.LoginRequestDto;
 import xyz.ncookie.sma.member.service.AuthService;
-import xyz.ncookie.sma.global.data.SessionConst;
+import xyz.ncookie.sma.common.data.SessionConst;
 import xyz.ncookie.sma.member.dto.response.MemberResponseDto;
 
 @RestController

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import xyz.ncookie.sma.global.entity.BaseEntity;
+import xyz.ncookie.sma.common.entity.BaseEntity;
 import xyz.ncookie.sma.member.entity.Member;
 import xyz.ncookie.sma.schedule.entity.Schedule;
 

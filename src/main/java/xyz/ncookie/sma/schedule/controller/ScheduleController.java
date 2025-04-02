@@ -9,7 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import xyz.ncookie.sma.global.data.SessionConst;
+import xyz.ncookie.sma.common.data.SessionConst;
 import xyz.ncookie.sma.member.dto.response.MemberResponseDto;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleSaveRequestDto;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleUpdateRequestDto;

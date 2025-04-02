@@ -1,4 +1,4 @@
-package xyz.ncookie.sma.global.entity;
+package xyz.ncookie.sma.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

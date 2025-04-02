@@ -1,4 +1,4 @@
-package xyz.ncookie.sma.global.data;
+package xyz.ncookie.sma.common.data;
 
 public abstract class SessionConst {
 

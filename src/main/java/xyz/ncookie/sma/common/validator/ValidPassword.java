@@ -1,4 +1,4 @@
-package xyz.ncookie.sma.global.validator;
+package xyz.ncookie.sma.common.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

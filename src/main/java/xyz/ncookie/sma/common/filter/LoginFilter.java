@@ -1,4 +1,4 @@
-package xyz.ncookie.sma.global.filter;
+package xyz.ncookie.sma.common.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -9,9 +9,9 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.util.PatternMatchUtils;
-import xyz.ncookie.sma.global.data.SessionConst;
-import xyz.ncookie.sma.global.exception.ErrorCode;
-import xyz.ncookie.sma.global.exception.ErrorResponse;
+import xyz.ncookie.sma.common.data.SessionConst;
+import xyz.ncookie.sma.common.exception.ErrorCode;
+import xyz.ncookie.sma.common.exception.ErrorResponse;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

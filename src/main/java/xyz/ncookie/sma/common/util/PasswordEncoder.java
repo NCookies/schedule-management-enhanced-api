@@ -1,4 +1,4 @@
-package xyz.ncookie.sma.global.util;
+package xyz.ncookie.sma.common.util;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;

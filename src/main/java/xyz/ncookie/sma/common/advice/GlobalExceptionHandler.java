@@ -1,4 +1,4 @@
-package xyz.ncookie.sma.global.advice;
+package xyz.ncookie.sma.common.advice;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import xyz.ncookie.sma.global.exception.BusinessException;
-import xyz.ncookie.sma.global.exception.ErrorCode;
-import xyz.ncookie.sma.global.exception.ErrorResponse;
+import xyz.ncookie.sma.common.exception.BusinessException;
+import xyz.ncookie.sma.common.exception.ErrorCode;
+import xyz.ncookie.sma.common.exception.ErrorResponse;
 
 @RestControllerAdvice
 @Slf4j

@@ -1,9 +1,9 @@
-package xyz.ncookie.sma.global.repository;
+package xyz.ncookie.sma.common.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-import xyz.ncookie.sma.global.exception.BusinessException;
-import xyz.ncookie.sma.global.exception.ErrorCode;
+import xyz.ncookie.sma.common.exception.BusinessException;
+import xyz.ncookie.sma.common.exception.ErrorCode;
 
 /**
  * 여러 도메인의 Repository에서 공통적으로 사용하는 기능을 default 메서드로 구현한 인터페이스

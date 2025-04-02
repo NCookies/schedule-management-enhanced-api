@@ -1,4 +1,4 @@
-package xyz.ncookie.sma.global.exception;
+package xyz.ncookie.sma.common.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
