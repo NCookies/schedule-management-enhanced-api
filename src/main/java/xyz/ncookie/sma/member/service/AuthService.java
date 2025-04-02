@@ -1,8 +1,8 @@
-package xyz.ncookie.sma.auth.service;
+package xyz.ncookie.sma.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import xyz.ncookie.sma.auth.dto.request.LoginRequestDto;
+import xyz.ncookie.sma.member.dto.request.LoginRequestDto;
 import xyz.ncookie.sma.global.exception.BusinessException;
 import xyz.ncookie.sma.global.exception.ErrorCode;
 import xyz.ncookie.sma.global.util.PasswordEncoder;

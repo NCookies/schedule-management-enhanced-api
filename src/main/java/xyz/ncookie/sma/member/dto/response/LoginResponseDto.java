@@ -1,4 +1,4 @@
-package xyz.ncookie.sma.auth.dto.response;
+package xyz.ncookie.sma.member.dto.response;
 
 import xyz.ncookie.sma.member.entity.Member;
 

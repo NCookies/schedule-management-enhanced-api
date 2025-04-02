@@ -1,4 +1,4 @@
-package xyz.ncookie.sma.auth.dto.request;
+package xyz.ncookie.sma.member.dto.request;
 
 import xyz.ncookie.sma.global.validator.ValidEmail;
 import xyz.ncookie.sma.global.validator.ValidPassword;

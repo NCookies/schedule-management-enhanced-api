@@ -1,4 +1,4 @@
-package xyz.ncookie.sma.auth.controller;
+package xyz.ncookie.sma.member.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.ncookie.sma.auth.dto.request.LoginRequestDto;
-import xyz.ncookie.sma.auth.service.AuthService;
+import xyz.ncookie.sma.member.dto.request.LoginRequestDto;
+import xyz.ncookie.sma.member.service.AuthService;
 import xyz.ncookie.sma.global.data.SessionConst;
 import xyz.ncookie.sma.member.dto.response.MemberResponseDto;
 
