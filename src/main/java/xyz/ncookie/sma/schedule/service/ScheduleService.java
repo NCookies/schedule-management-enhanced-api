@@ -14,7 +14,7 @@ import xyz.ncookie.sma.schedule.dto.request.ScheduleSaveRequestDto;
 import xyz.ncookie.sma.schedule.dto.request.ScheduleUpdateRequestDto;
 import xyz.ncookie.sma.schedule.dto.response.ScheduleResponseDto;
 import xyz.ncookie.sma.schedule.dto.response.ScheduleWithCommentCountResponseDto;
-import xyz.ncookie.sma.schedule.dto.response.ScheduleWithFlatCommentCountDto;
+import xyz.ncookie.sma.schedule.dto.response.ScheduleWithCommentCountFlatDto;
 import xyz.ncookie.sma.schedule.entity.Schedule;
 import xyz.ncookie.sma.schedule.repository.ScheduleRepository;
 
@@ -54,9 +54,9 @@ public class ScheduleService {
     @Transactional(readOnly = true)
     public Page<ScheduleWithCommentCountResponseDto> findAllSchedules(Pageable pageable) {
 
-        Page<ScheduleWithFlatCommentCountDto> findAllComment = scheduleRepository.findAllWithCommentCount(pageable);
+        Page<ScheduleWithCommentCountFlatDto> findAllComment = scheduleRepository.findAllWithCommentCount(pageable);
 
-        return findAllComment.map(ScheduleWithFlatCommentCountDto::toResponseDto);
+        return findAllComment.map(ScheduleWithCommentCountFlatDto::toResponseDto);
     }
 
     @Transactional

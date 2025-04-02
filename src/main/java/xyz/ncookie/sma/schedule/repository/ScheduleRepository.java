@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import xyz.ncookie.sma.global.repository.BaseRepository;
-import xyz.ncookie.sma.schedule.dto.response.ScheduleWithFlatCommentCountDto;
+import xyz.ncookie.sma.schedule.dto.response.ScheduleWithCommentCountFlatDto;
 import xyz.ncookie.sma.schedule.entity.Schedule;
 
 public interface ScheduleRepository extends BaseRepository<Schedule, Long> {
@@ -15,7 +15,7 @@ public interface ScheduleRepository extends BaseRepository<Schedule, Long> {
      * @return ScheduleWithFlatCommentDto 형태로 매핑 후, 응답 데이터에 사용할 때에는 ScheduleWithCommentResponseDto 로 변환 
      */
     @Query("""
-                SELECT new xyz.ncookie.sma.schedule.dto.response.ScheduleWithFlatCommentCountDto(
+                SELECT new xyz.ncookie.sma.schedule.dto.response.ScheduleWithCommentCountFlatDto(
                     s.id,
                     s.title,
                     s.contents,
@@ -31,6 +31,6 @@ public interface ScheduleRepository extends BaseRepository<Schedule, Long> {
                 GROUP BY
                     s.id
             """)
-    Page<ScheduleWithFlatCommentCountDto> findAllWithCommentCount(Pageable pageable);
+    Page<ScheduleWithCommentCountFlatDto> findAllWithCommentCount(Pageable pageable);
 
 }
