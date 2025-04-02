@@ -2,6 +2,10 @@ package xyz.ncookie.sma.comment.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +41,17 @@ public class CommentController {
         CommentResponseDto findComment = commentService.findCommentById(commentId);
 
         return ResponseEntity.ok().body(findComment);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<CommentResponseDto>> findAllComments(
+            @PageableDefault(size = 10, sort = "modifiedAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @PathVariable Long scheduleId
+    ) {
+
+        Page<CommentResponseDto> findAllComments = commentService.findAllCommentsByScheduleId(pageable, scheduleId);
+
+        return ResponseEntity.ok().body(findAllComments);
     }
 
     @PutMapping("/{commentId}")

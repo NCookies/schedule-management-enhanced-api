@@ -2,6 +2,8 @@ package xyz.ncookie.sma.comment.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.ncookie.sma.comment.dto.request.CommentSaveRequestDto;
@@ -16,7 +18,6 @@ import xyz.ncookie.sma.member.repository.MemberRepository;
 import xyz.ncookie.sma.schedule.entity.Schedule;
 import xyz.ncookie.sma.schedule.repository.ScheduleRepository;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -49,13 +50,12 @@ public class CommentService {
         return CommentResponseDto.fromEntity(findComment);
     }
 
-    // TODO: 페이징 적용 후 구현 예정
     @Transactional(readOnly = true)
-    public CommentResponseDto findAllCommentByScheduleId(Long scheduleId) {
+    public Page<CommentResponseDto> findAllCommentsByScheduleId(Pageable pageable, Long scheduleId) {
 
-        List<Comment> findComments = commentRepository.findBySchedule_id(scheduleId);
-//        return CommentResponseDto.fromEntity(findComment);
-        return null;
+        Page<Comment> commentPage = commentRepository.findBySchedule_id(pageable, scheduleId);
+
+        return commentPage.map(CommentResponseDto::fromEntity);
     }
 
     @Transactional
