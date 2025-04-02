@@ -39,7 +39,7 @@ cd schedule-management-enhanced-api
 docker-compose up -d
 
 # 프로젝트 빌드 (의존성 다운로드 및 컴파일)
-./gradlew build
+./gradlew build -x test
 
 # 스프링 부트 애플리케이션 실행
 ./gradlew bootRun
