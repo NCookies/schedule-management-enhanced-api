@@ -1,10 +1,11 @@
 package xyz.ncookie.sma.member.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import xyz.ncookie.sma.global.data.SessionConst;
+import xyz.ncookie.sma.common.data.SessionConst;
 import xyz.ncookie.sma.member.dto.request.MemberCreateRequestDto;
 import xyz.ncookie.sma.member.dto.request.MemberUpdatePasswordRequestDto;
 import xyz.ncookie.sma.member.dto.request.MemberUpdateRequestDto;
@@ -19,7 +20,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/register")
-    public ResponseEntity<MemberResponseDto> register(@RequestBody MemberCreateRequestDto dto) {
+    public ResponseEntity<MemberResponseDto> register(@Valid @RequestBody MemberCreateRequestDto dto) {
 
         MemberResponseDto createdMember = memberService.createMember(dto);
 
@@ -48,7 +49,7 @@ public class MemberController {
     @PutMapping("/me/info")
     public ResponseEntity<MemberResponseDto> updateMemberInfo(
             @SessionAttribute(name = SessionConst.LOGIN_USER) MemberResponseDto loginMember,
-            @RequestBody MemberUpdateRequestDto dto
+            @Valid @RequestBody MemberUpdateRequestDto dto
     ) {
 
         MemberResponseDto updatedMember = memberService.updateMemberInfo(loginMember.id(), dto);
@@ -60,7 +61,7 @@ public class MemberController {
     @PutMapping("/me/password")
     public ResponseEntity<MemberResponseDto> updateMemberPassword(
             @SessionAttribute(name = SessionConst.LOGIN_USER) MemberResponseDto loginMember,
-            @RequestBody MemberUpdatePasswordRequestDto dto
+            @Valid @RequestBody MemberUpdatePasswordRequestDto dto
     ) {
 
         MemberResponseDto updatedMember = memberService.updateMemberPassword(loginMember.id(), dto);
