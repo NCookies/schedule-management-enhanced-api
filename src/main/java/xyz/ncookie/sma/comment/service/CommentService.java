@@ -30,6 +30,13 @@ public class CommentService {
     private final MemberRepository memberRepository;
     private final ScheduleRepository scheduleRepository;
 
+    /**
+     * 댓글 생성
+     * @param scheduleId 일정 ID
+     * @param memberId 회원 ID
+     * @param dto 댓글 내용
+     * @return 생성된 댓글 정보
+     */
     @Transactional
     public CommentResponseDto saveComment(Long scheduleId, Long memberId, CommentSaveRequestDto dto) {
 
@@ -43,6 +50,11 @@ public class CommentService {
         return CommentResponseDto.fromEntity(savedComment);
     }
 
+    /**
+     * 댓글 단일 조회
+     * @param commentId 댓글 ID
+     * @return 댓글 정보
+     */
     @Transactional(readOnly = true)
     public CommentResponseDto findCommentById(Long commentId) {
 
@@ -50,6 +62,13 @@ public class CommentService {
         return CommentResponseDto.fromEntity(findComment);
     }
 
+    /**
+     * 특정 일정에 달린 댓글 리스트 조회
+     * 일정 단일 조회 시 댓글을 새로고침하거나 "더 보기" 등을 통해 추가적인 댓글을 조회할 때 사용할 수 있다.
+     * @param pageable 페이징 시 사용되는 객체
+     * @param scheduleId 일정 ID
+     * @return 댓글 페이징 객체
+     */
     @Transactional(readOnly = true)
     public Page<CommentResponseDto> findAllCommentsByScheduleId(Pageable pageable, Long scheduleId) {
 
@@ -58,6 +77,15 @@ public class CommentService {
         return commentPage.map(CommentResponseDto::fromEntity);
     }
 
+    /**
+     * 댓글 수정
+     * 댓글을 등록한 본인인지 검사하고 수정 작업을 수행한다.
+     * @param commentId 댓글 ID
+     * @param memberId 회원 ID
+     * @param scheduleId 일정 ID
+     * @param dto 수정할 댓글 내용
+     * @return 수정된 댓글 정보
+     */
     @Transactional
     public CommentResponseDto updateComment(Long commentId, Long memberId, Long scheduleId, CommentUpdateRequestDto dto) {
 
@@ -70,6 +98,13 @@ public class CommentService {
         return CommentResponseDto.fromEntity(findComment);
     }
 
+    /**
+     * 댓글 삭제
+     * 댓글을 등록한 본인인지 검사하고 삭제 작업을 수행한다.
+     * @param commentId 댓글 ID
+     * @param memberId 회원 ID
+     * @param scheduleId 일정 ID
+     */
     @Transactional
     public void deleteComment(Long commentId, Long memberId, Long scheduleId) {
 
@@ -80,7 +115,12 @@ public class CommentService {
         commentRepository.delete(findComment);
     }
 
-    // 댓글 수정 또는 삭제 시 해당 일정을 작성한 회원인지 검증
+    /**
+     * 댓글 수정 또는 삭제 시 해당 일정을 작성한 회원인지 검증
+     * @param findComment 수정 또는 삭제하려는 댓글 entity
+     * @param memberId 회원 ID
+     * @param scheduleId 일정 ID
+     */
     public void verifyCommentOwner(Comment findComment, Long memberId, Long scheduleId) {
 
         Long findScheduleId = findComment.getSchedule().getId();
